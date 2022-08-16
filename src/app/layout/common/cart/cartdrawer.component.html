@@ -1,0 +1,278 @@
+<div class="fixed flex items-center justify-center right-0 w-10 h-10 shadow-lg rounded-l-lg z-90 cursor-pointer bg-red-600 bg-opacity-90 print:hidden"
+    [class.lg:right-0]="config.layout === 'centered' || config.layout === 'material'"
+    [class.lg:right-16]="config.layout !== 'centered' && config.layout !== 'material'" style="top: 275px"
+    (click)="cartDrawer.toggle()">
+    <mat-icon class="icon-size-5 text-white" [svgIcon]="'heroicons_outline:shopping-cart'"></mat-icon>
+</div>
+
+<fuse-drawer class="w-screen min-w-screen sm:w-100 sm:min-w-100 z-999" fixed [mode]="'over'" [name]="'cartDrawer'"
+    [position]="'right'" #cartDrawer>
+
+    <div class="flex flex-col w-full overflow-auto bg-card">
+        <div class="flex flex-row items-center px-6 h-20 min-h-20 text-white bg-primary">
+            <mat-icon class="icon-size-7 text-current" [svgIcon]="'heroicons_solid:cog'"></mat-icon>
+
+        </div>
+
+        <div class="flex flex-col p-6">
+            <div class="ml-3 text-2xl font-semibold tracking-tight">Cart</div>
+            <button class="ml-auto" mat-icon-button (click)="cartDrawer.close()">
+                <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+            </button>
+            <div class="cart-wrapper">
+                <div class="cart-panel">
+                    <header class="cart-header">
+                        <div class="cart-tabs">
+                            <ul class="cart-tab-table">
+                                <li class="cart-tab-cell selected">
+                                    <span class="cart-tab">
+                                        <span class="tab-ic tab-cart-ic"></span>
+                                        <span class="tab-label">$1 200 364.89</span>
+                                    </span>
+                                </li>
+                                <li class="cart-tab-cell">
+                                    <span class="cart-tab">
+                                        <span class="tab-ic tab-heart-line-ic"></span>
+                                        <span class="tab-label">162</span>
+                                    </span>
+                                </li>
+                            </ul>
+                            <span class="tab-selector"></span>
+                        </div>
+                    </header>
+                    <div class="cart-content">
+                        <div class="cart-sections">
+                            <section class="cart-section nano">
+                                <ul class="cart-list overthrow nano-content">
+                                    <li class="cart-list-item">
+                                        <div class="cart-item">
+                                            <div class="cart-item-description">
+                                                <span>
+                                                    <p class="cart-item-label">Metropolitan Clock</p>
+                                                    <p class="cart-item-price">$200.00</p>
+                                                </span>
+                                            </div>
+                                            <div class="cart-item-favorites">
+                                                <span class="item-heart-ic"></span>
+                                            </div>
+                                            <div class="cart-item-trash">
+                                                <span class="item-trash-ic"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="cart-list-item">
+                                        <div class="cart-item">
+                                            <div class="cart-item-description">
+                                                <span>
+                                                    <p class="cart-item-label">Mondaine Helvetica No 1 Smart Watch</p>
+                                                    <p class="cart-item-price">$950.00</p>
+                                                </span>
+                                            </div>
+                                            <div class="cart-item-favorites">
+                                                <span class="item-heart-ic"></span>
+                                            </div>
+                                            <div class="cart-item-trash">
+                                                <span class="item-trash-ic"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="cart-list-item">
+                                        <div class="cart-item">
+                                            <div class="cart-item-description">
+                                                <span>
+                                                    <p class="cart-item-label">Kobenstyle Casserole - Green</p>
+                                                    <p class="cart-item-price">$80.00</p>
+                                                </span>
+                                            </div>
+                                            <div class="cart-item-favorites">
+                                                <span class="item-heart-ic"></span>
+                                            </div>
+                                            <div class="cart-item-trash">
+                                                <span class="item-trash-ic"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="cart-list-footer"></li>
+                                </ul>
+                            </section>
+                            <section class="cart-section nano">
+                                <ul class="cart-list overthrow nano-content">
+                                    <li class="cart-list-item">
+                                        <div class="cart-item">
+                                            <div class="cart-item-description">
+                                                <span>
+                                                    <p class="cart-item-label">Grand Prix Play Set</p>
+                                                    <p class="cart-item-price">$90.00</p>
+                                                </span>
+                                            </div>
+                                            <div class="cart-item-favorites">
+                                                <span class="item-heart-ic"></span>
+                                            </div>
+                                            <div class="cart-item-trash">
+                                                <span class="item-trash-ic"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="cart-list-item">
+                                        <div class="cart-item">
+                                            <div class="cart-item-description">
+                                                <span>
+                                                    <p class="cart-item-label">Robot Nightlight</p>
+                                                    <p class="cart-item-price">$44.00</p>
+                                                </span>
+                                            </div>
+                                            <div class="cart-item-favorites">
+                                                <span class="item-heart-ic"></span>
+                                            </div>
+                                            <div class="cart-item-trash">
+                                                <span class="item-trash-ic"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="cart-list-item">
+                                        <div class="cart-item">
+                                            <div class="cart-item-description">
+                                                <span>
+                                                    <p class="cart-item-label">Birds In Harmony Mobile</p>
+                                                    <p class="cart-item-price">$35.00</p>
+                                                </span>
+                                            </div>
+                                            <div class="cart-item-favorites">
+                                                <span class="item-heart-ic"></span>
+                                            </div>
+                                            <div class="cart-item-trash">
+                                                <span class="item-trash-ic"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="cart-list-item">
+                                        <div class="cart-item">
+                                            <div class="cart-item-description">
+                                                <span>
+                                                    <p class="cart-item-label">HAY Plissé File Organizer</p>
+                                                    <p class="cart-item-price">$28.00</p>
+                                                </span>
+                                            </div>
+                                            <div class="cart-item-favorites">
+                                                <span class="item-heart-ic"></span>
+                                            </div>
+                                            <div class="cart-item-trash">
+                                                <span class="item-trash-ic"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="cart-list-item">
+                                        <div class="cart-item">
+                                            <div class="cart-item-description">
+                                                <span>
+                                                    <p class="cart-item-label">Osmo Game Starter Kit</p>
+                                                    <p class="cart-item-price">$80.00</p>
+                                                </span>
+                                            </div>
+                                            <div class="cart-item-favorites">
+                                                <span class="item-heart-ic"></span>
+                                            </div>
+                                            <div class="cart-item-trash">
+                                                <span class="item-trash-ic"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="cart-list-item">
+                                        <div class="cart-item">
+                                            <div class="cart-item-description">
+                                                <span>
+                                                    <p class="cart-item-label">DIY Gamer Kit (With Arduino)</p>
+                                                    <p class="cart-item-price">$99.00</p>
+                                                </span>
+                                            </div>
+                                            <div class="cart-item-favorites">
+                                                <span class="item-heart-ic"></span>
+                                            </div>
+                                            <div class="cart-item-trash">
+                                                <span class="item-trash-ic"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="cart-list-item">
+                                        <div class="cart-item">
+                                            <div class="cart-item-description">
+                                                <span>
+                                                    <p class="cart-item-label">HAY Playing Cards</p>
+                                                    <p class="cart-item-price">$10.00</p>
+                                                </span>
+                                            </div>
+                                            <div class="cart-item-favorites">
+                                                <span class="item-heart-ic"></span>
+                                            </div>
+                                            <div class="cart-item-trash">
+                                                <span class="item-trash-ic"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="cart-list-item">
+                                        <div class="cart-item">
+                                            <div class="cart-item-description">
+                                                <span>
+                                                    <p class="cart-item-label">Pixel Worktop Saver</p>
+                                                    <p class="cart-item-price">$25.00</p>
+                                                </span>
+                                            </div>
+                                            <div class="cart-item-favorites">
+                                                <span class="item-heart-ic"></span>
+                                            </div>
+                                            <div class="cart-item-trash">
+                                                <span class="item-trash-ic"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="cart-list-item">
+                                        <div class="cart-item">
+                                            <div class="cart-item-description">
+                                                <span>
+                                                    <p class="cart-item-label">On Color Mug</p>
+                                                    <p class="cart-item-price">$12.00</p>
+                                                </span>
+                                            </div>
+                                            <div class="cart-item-favorites">
+                                                <span class="item-heart-ic"></span>
+                                            </div>
+                                            <div class="cart-item-trash">
+                                                <span class="item-trash-ic"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="cart-list-item">
+                                        <div class="cart-item">
+                                            <div class="cart-item-description">
+                                                <span>
+                                                    <p class="cart-item-label">Girachille</p>
+                                                    <p class="cart-item-price">$28.00</p>
+                                                </span>
+                                            </div>
+                                            <div class="cart-item-favorites">
+                                                <span class="item-heart-ic"></span>
+                                            </div>
+                                            <div class="cart-item-trash">
+                                                <span class="item-trash-ic"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="cart-list-footer"></li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                    <footer class="cart-footer">
+                        <div class="cart-checkout-btn">
+                            <span class="checkout-cart-ic"></span>
+                            <span class="checkout-label">Checkout</span>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</fuse-drawer>

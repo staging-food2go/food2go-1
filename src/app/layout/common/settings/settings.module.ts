@@ -6,10 +6,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FuseDrawerModule } from '@fuse/components/drawer';
 import { SettingsComponent } from 'app/layout/common/settings/settings.component';
 import { MatButtonModule } from '@angular/material/button';
+import { CartDrawerComponent } from '../cart/cartdrawer.component';
 
 @NgModule({
     declarations: [
-        SettingsComponent
+        SettingsComponent,
+        CartDrawerComponent
     ],
     imports     : [
         CommonModule,
@@ -20,7 +22,8 @@ import { MatButtonModule } from '@angular/material/button';
         MatButtonModule
     ],
     exports     : [
-        SettingsComponent
+        SettingsComponent,
+        CartDrawerComponent
     ]
 })
 export class SettingsModule

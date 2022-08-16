@@ -7,18 +7,19 @@ import { NotificationService } from 'app/shared/services/notify.service';
 import { UserService } from 'app/shared/services/user.service';
 
 @Component({
-    selector     : 'landing-home',
-    templateUrl  : './customer/public/index.component.html',
-    styleUrls: ['./customer/public/assets/css/theme.css'],
+    selector     : 'landing-store',
+    templateUrl  : './store.component.html',
+    styleUrls: ['./assets/css/theme.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class LandingHomeComponent
+export class StoreComponent
 {
     records = [];
     keyword = '';
     today = new Date().getDay();
     shopLoading = true;
     user = [];
+    store: any;
 
     constructor(
     private _consumer: ConsumerService,
@@ -33,26 +34,16 @@ export class LandingHomeComponent
     }
 
     ngOnInit(): void {
-        this.fetch();
         this.user = this._auth.getUser();
+        this.store = this._consumer.getSelectedStore();
     }
 
-    fetch() {
-        this.shopLoading = true;
-        this._consumer.search(this.keyword)
-          .subscribe((store: any) => {
-            this.records = store.result;
-            this.shopLoading = false;
-            console.log(this.records);
-          });
-    }
 
     tConvert(time) {
         return this._common.tConvert(time);
     }
 
-    chooseStore(store){
-        this._consumer.setSelectedStore(store);
-        this._router.navigate(['/stores/' + store.id])
+    back() {
+        this._router.navigateByUrl('/stores');
     }
 }

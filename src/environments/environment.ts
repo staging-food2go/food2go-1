@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production: false
+    production: false,
+    // API_ENDPOINT: 'http://localhost:8000'
+    API_ENDPOINT: 'https://kafiesta-api.osc-fr1.scalingo.io'
+    
 };
 
 /*
