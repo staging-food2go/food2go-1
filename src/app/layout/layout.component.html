@@ -45,4 +45,4 @@
 <!-- Settings drawer - Remove this to remove the drawer and its button -->
 <!-- ----------------------------------------------------------------------------------------------------- -->
 <!-- <settings></settings> -->
-<cartdrawer></cartdrawer>
+<cartdrawer [hidden]="!url.includes('stores') || url.includes('redirectURL') || url.includes('checkout')"></cartdrawer>

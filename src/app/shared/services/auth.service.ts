@@ -58,6 +58,8 @@ export class AuthService {
     }
 
     logout(){
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
       return this._http.get(environment.API_ENDPOINT + '/v1/auth/logout');
     }
 }

@@ -4,6 +4,9 @@ import { Subject, takeUntil } from 'rxjs';
 import { FuseConfigService } from '@fuse/services/config';
 import { AppConfig, Scheme, Theme, Themes } from 'app/core/config/app.config';
 import { Layout } from 'app/layout/layout.types';
+import { ConsumerService } from 'app/shared/services/consumer.service';
+import { Cart } from './cart.model';
+import { AuthService } from 'app/shared/services/auth.service';
 
 @Component({
     selector     : 'cartdrawer',
@@ -29,11 +32,14 @@ export class CartDrawerComponent implements OnInit, OnDestroy
      * Constructor
      */
     constructor(
-        private _fuseConfigService: FuseConfigService
+        private _fuseConfigService: FuseConfigService,
+        private _consumer: ConsumerService,
+        private _auth: AuthService,
+        private _router: Router
     )
     {
     }
-
+    cart: Cart;
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
@@ -47,9 +53,12 @@ export class CartDrawerComponent implements OnInit, OnDestroy
         this._fuseConfigService.config$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((config: AppConfig) => {
-
-                // Store the config
                 this.config = config;
+            });
+        this._consumer.cart$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((cart: Cart) => {
+                this.cart = cart;
             });
     }
 
@@ -61,6 +70,24 @@ export class CartDrawerComponent implements OnInit, OnDestroy
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
+    }
+
+    deduct(product_id) {
+        this._consumer.itemQuantityDeduct(product_id);
+    }
+    add(product_id) {
+        this._consumer.itemQuantityAdd(product_id);
+    }
+    remove(product_id) {
+        this._consumer.itemRemove(product_id);
+    }
+
+    checkout() {
+        if (this._auth.isAuthenticated()) {
+            this._router.navigateByUrl('/stores/' + this.cart.store.id + '/checkout');
+        } else {
+            alert('not authenticate');
+        }
     }
 
    

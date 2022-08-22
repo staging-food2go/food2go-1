@@ -6,22 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- ===============================================-->
-    <!--    Favicons-->
-    <!-- ===============================================-->
-    <!-- <link rel="apple-touch-icon" sizes="180x180" href="./assets/img/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/img/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicons/favicon-16x16.png">
-    <link rel="shortcut icon" type="image/x-icon" href="./assets/img/favicons/favicon.ico">
-    <link rel="manifest" href="./assets/img/favicons/manifest.json">
-    <meta name="msapplication-TileImage" content="./assets/img/favicons/mstile-150x150.png">
-    <meta name="theme-color" content="#ffffff">
- -->
-
-    <!-- ===============================================-->
-    <!--    Stylesheets-->
-    <!-- ===============================================-->
-
   </head>
 
 
@@ -32,16 +16,25 @@
     <!-- ===============================================-->
     <main class="main" id="top">
       <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" data-navbar-on-scroll="data-navbar-on-scroll">
-        <div class="container"><a class="navbar-brand d-inline-flex" href="index.html"><img class="d-inline-block" src="./assets/img/gallery/logo.svg" alt="logo" /><span class="text-1000 fs-3 fw-bold ms-2 text-gradient">foodwaGon</span></a>
+        <div class="container"><a class="navbar-brand d-inline-flex" href="index.html"><img class="d-inline-block" src="./assets/img/gallery/logo.svg" alt="logo" /><span class="text-1000 fs-3 fw-bold ms-2 text-gradient">Food2Go</span></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"> </span></button>
-          <div class="collapse navbar-collapse border-top border-lg-0 my-2 mt-lg-0" id="navbarSupportedContent">
-            <!-- <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
-              <p class="mb-0 fw-bold text-lg-center">Deliver to: <i class="fas fa-map-marker-alt text-warning mx-2"></i><span class="fw-normal">Current Location </span><span>Mirpur 1 Bus Stand, Dhaka</span></p>
-            </div> -->
+          <div *ngIf="!user" class="collapse navbar-collapse border-top border-lg-0 my-2 mt-lg-0" id="navbarSupportedContent">
+            <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
+              <!-- <p class="mb-0 fw-bold text-lg-center pb-2">You are not logged in</p> -->
+            </div>
               <!-- <div class="input-group-icon pe-2"><i class="fas fa-search input-box-icon text-primary"></i>
                 <input class="form-control border-0 input-box bg-100" type="search" placeholder="Search Food" aria-label="Search" />
               </div> -->
-              <a class="btn btn-white shadow-warning text-warning pull-right" [routerLink]="'/sign-in'"> <i class="fas fa-user me-2"></i>Login</a>
+              <a class="btn btn-white shadow-warning text-warning pull-right" (click)="login()"> <i class="fas fa-user me-2"></i>Login</a>
+          </div>
+          <div *ngIf="user" class="collapse navbar-collapse border-top border-lg-0 my-2 mt-lg-0" id="navbarSupportedContent">
+            <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
+              <p class="mb-0 fw-bold text-lg-center"><i class="fas fa-user text-warning mx-2"></i> Hello, {{ user?.first_name }} {{ user?.last_name }} <i class="fas fa-map-marker-alt text-warning mx-2"></i> <span>Current Location: </span><span>{{ user?.user_informations?.complete_address }}</span></p>
+            </div>
+              <!-- <div class="input-group-icon pe-2"><i class="fas fa-search input-box-icon text-primary"></i>
+                <input class="form-control border-0 input-box bg-100" type="search" placeholder="Search Food" aria-label="Search" />
+              </div> -->
+              <a class="btn btn-white shadow-warning text-warning pull-right" (click)="logout()"> <i class="fas fa-user me-2"></i>Logout</a>
           </div>
         </div>
       </nav>
@@ -66,11 +59,11 @@
                         <div class="col">
                           <div class="input-group-icon"><i class="fas fa-utensils text-danger input-box-icon"></i>
                             <label class="visually-hidden" for="inputDelivery">Cravings</label>
-                            <input class="form-control input-box form-foodwagon-control" id="inputDelivery" type="text" placeholder="Enter Your Cravings" />
+                            <input [(ngModel)]="keyword" name="keyword" class="form-control input-box form-foodwagon-control" id="inputDelivery" type="text" placeholder="Enter Your Cravings" />
                           </div>
                         </div>
                         <div class="d-grid gap-3 col-sm-auto">
-                          <button class="btn btn-danger" type="submit">Find Food</button>
+                          <button class="btn btn-danger" type="button" (click)="fetch()">Find Food</button>
                         </div>
                       </form>
                     </div>
@@ -239,8 +232,15 @@
               <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Featured Restaurants</h5>
             </div>
           </div>
-          <div class="row gx-2">
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5" *ngFor="let store of records">
+          <div class="row gx-2 justify-center" *ngIf="shopLoading">
+            <mat-progress-spinner
+                class="example-margin"
+                [color]="'warn'"
+                [mode]="'indeterminate'">
+            </mat-progress-spinner>
+          </div>
+          <div class="row gx-2" *ngIf="!shopLoading">
+            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5" *ngFor="let store of records" >
               <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="./assets/img/gallery/kuakata.png" alt="..." />
                 <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">10% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
                 <div class="card-body ps-0 mx-3 z-10">
@@ -263,7 +263,7 @@
 
       <!-- ============================================-->
       <!-- <section> begin ============================-->
-      <section class="py-4 overflow-hidden">
+      <section class="py-4 overflow-hidden" hidden>
 
         <div class="container">
           <div class="row h-100">

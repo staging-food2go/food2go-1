@@ -21,7 +21,7 @@ export class LayoutComponent implements OnInit, OnDestroy
     scheme: 'dark' | 'light';
     theme: string;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-
+    url = '';
     /**
      * Constructor
      */
@@ -95,7 +95,6 @@ export class LayoutComponent implements OnInit, OnDestroy
             filter(event => event instanceof NavigationEnd),
             takeUntil(this._unsubscribeAll)
         ).subscribe(() => {
-
             // Update the layout
             this._updateLayout();
         });
@@ -130,6 +129,7 @@ export class LayoutComponent implements OnInit, OnDestroy
             route = route.firstChild;
         }
 
+        this.url = this._router.url;
         // 1. Set the layout from the config
         this.layout = this.config.layout;
 

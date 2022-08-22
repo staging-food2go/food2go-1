@@ -34,6 +34,10 @@ export class LandingHomeComponent
 
     ngOnInit(): void {
         this.fetch();
+        this.getUser();
+    }
+
+    getUser() {
         this.user = this._auth.getUser();
     }
 
@@ -43,7 +47,6 @@ export class LandingHomeComponent
           .subscribe((store: any) => {
             this.records = store.result;
             this.shopLoading = false;
-            console.log(this.records);
           });
     }
 
@@ -54,5 +57,16 @@ export class LandingHomeComponent
     chooseStore(store){
         this._consumer.setSelectedStore(store);
         this._router.navigate(['/stores/' + store.id])
+    }
+
+    login () {
+        this._router.navigateByUrl('/sign-in?redirectURL=stores');
+    }
+
+    logout() {
+        this._auth.logout()
+        .subscribe(()=>{
+            this.getUser();
+        });
     }
 }
