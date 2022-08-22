@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { AuthService } from 'app/shared/services/auth.service';
 import { CommonService } from 'app/shared/services/common.service';
 import { ConsumerService } from 'app/shared/services/consumer.service';
@@ -19,14 +20,15 @@ export class LandingHomeComponent
     today = new Date().getDay();
     shopLoading = true;
     user = [];
-
+    trackOrderNumber = '';
     constructor(
     private _consumer: ConsumerService,
     private _common: CommonService,
     private _router: Router,
     private _auth: AuthService,
     private _user: UserService,
-    private _notify: NotificationService
+    private _notify: NotificationService,
+    private _fuseConfirmationService: FuseConfirmationService
     )
     {
         
@@ -68,5 +70,60 @@ export class LandingHomeComponent
         .subscribe(()=>{
             this.getUser();
         });
+    }
+
+    track(){
+        this._consumer.track(this.trackOrderNumber)
+        .subscribe((response: any) => {
+            this._fuseConfirmationService.open(
+                {
+                  title      : response['message'],
+                  message    : '',
+                  icon       : {
+                      show : false,
+                      name : 'heroicons_outline:question-mark-circle',
+                      color: 'primary'
+                  },
+                  actions    : {
+                      confirm: {
+                          show : true,
+                          label: 'Yes',
+                          color: 'primary'
+                      },
+                      cancel : {
+                          show : false,
+                          label: 'Cancel'
+                      }
+                  },
+                  dismissible: true
+              }).afterClosed().subscribe(result => {
+              });
+        },
+        (response: any) => {
+            this._fuseConfirmationService.open(
+                {
+                  title      : response.error['message'],
+                  message    : '',
+                  icon       : {
+                      show : false,
+                      name : 'heroicons_outline:question-mark-circle',
+                      color: 'primary'
+                  },
+                  actions    : {
+                      confirm: {
+                          show : true,
+                          label: 'Yes',
+                          color: 'primary'
+                      },
+                      cancel : {
+                          show : false,
+                          label: 'Cancel'
+                      }
+                  },
+                  dismissible: true
+              }).afterClosed().subscribe(result => {
+              });
+        })
+        
     }
 }

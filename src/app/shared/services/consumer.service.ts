@@ -51,6 +51,10 @@ export class ConsumerService {
     return this._http.post(environment.API_ENDPOINT + '/v1/orders/upload/'+id, file);
   }
 
+  track(id) {
+    return this._http.get(environment.API_ENDPOINT + '/v1/consumer/track/'+id);
+  }
+
   setSelectedStore(store) {
     localStorage.setItem('selectedStore', JSON.stringify(store));
   }
