@@ -40,9 +40,14 @@
                                 class="fas fa-map-marker-alt text-warning mx-2"></i> <span>Current Location:
                             </span><span>{{ user?.user_informations?.complete_address }}</span></p>
                     </div>
-
-                    <a class="btn btn-white shadow-warning text-warning pull-right" (click)="logout()"> <i
-                            class="fas fa-user me-2"></i>Logout</a>
+                    <div class="mx-auto pt-2 pt-lg-0 d-block d-lg-none d-xl-block">
+                        <a class="btn btn-danger text-white pull-right" [routerLink]="'/stores/activities/transactions'"> <i
+                                class="fas fa-bars me-2"></i>Transactions/Orders</a>
+                    </div>
+                    <div class="mx-auto pt-2 pt-lg-0 d-block d-lg-none d-xl-block">
+                        <a class="btn btn-danger text-white pull-right" (click)="logout()"> <i
+                                class="fas fa-user me-2"></i>Logout</a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -107,34 +112,41 @@
                                             <input [formControlName]="'address'" matInput>
                                         </mat-form-field>
                                     </div>
-                                      <!-- Mode of Payment -->
-                                      <div class="sm:col-span-2">
+                                    <!-- Mode of Payment -->
+                                    <div class="sm:col-span-2">
                                         <mat-form-field class="fuse-mat-no-subscript w-full">
                                             <mat-label>Mode of Payment</mat-label>
                                             <mat-icon class="icon-size-5" [svgIcon]="'mat_outline:payments'" matPrefix>
                                             </mat-icon>
                                             <mat-select [formControlName]="'mode_of_payment'" matInput>
-                                                <mat-option (click)="resetProof()" value="cod">Cash on Delivery</mat-option>
+                                                <mat-option (click)="resetProof()" value="cod">Cash on Delivery
+                                                </mat-option>
                                                 <mat-option value="gcash">Gcash</mat-option>
-                                              </mat-select>
+                                            </mat-select>
                                         </mat-form-field>
                                     </div>
-                                        <!-- Proof -->
-                                        <div class="sm:col-span-1" *ngIf="checkoutForm.get('mode_of_payment').value == 'gcash'">
-                                            <ng-container class="fuse-mat-no-subscript w-full">
-                                                <mat-label class="font-semibold">Gcash Information:</mat-label>&nbsp;
-                                                <input [value]="store?.contact" matInput readonly>
-                                                <input [value]="store?.users?.full_name" matInput readonly>
-                                            </ng-container>
-                                        </div>
-                                         <!-- Proof -->
-                                         <div class="sm:col-span-1" *ngIf="checkoutForm.get('mode_of_payment').value == 'gcash'">
-                                            <ng-container class="fuse-mat-no-subscript w-full">
-                                                <mat-label class="font-semibold">Proof of Payment</mat-label>&nbsp;<mat-icon class="icon-size-4" [svgIcon]="'heroicons_outline:question-mark-circle'" title="Attach the screenshot receipt from GCash"></mat-icon>
-                                                <input type="file" name="attachment" #attachment (change)="onUpload($event)">
-                                            </ng-container>
-                                            <div class="mt-1 text-md text-hint">Attach the screenshot receipt from GCash. This will verify by the merchant</div>
-                                        </div>
+                                    <!-- Proof -->
+                                    <div class="sm:col-span-1"
+                                        *ngIf="checkoutForm.get('mode_of_payment').value == 'gcash'">
+                                        <ng-container class="fuse-mat-no-subscript w-full">
+                                            <mat-label class="font-semibold">Gcash Information:</mat-label>&nbsp;
+                                            <input [value]="store?.contact" matInput readonly>
+                                            <input [value]="store?.users?.full_name" matInput readonly>
+                                        </ng-container>
+                                    </div>
+                                    <!-- Proof -->
+                                    <div class="sm:col-span-1"
+                                        *ngIf="checkoutForm.get('mode_of_payment').value == 'gcash'">
+                                        <ng-container class="fuse-mat-no-subscript w-full">
+                                            <mat-label class="font-semibold">Proof of Payment</mat-label>&nbsp;<mat-icon
+                                                class="icon-size-4" [svgIcon]="'heroicons_outline:question-mark-circle'"
+                                                title="Attach the screenshot receipt from GCash"></mat-icon>
+                                            <input type="file" name="attachment" #attachment
+                                                (change)="onUpload($event)">
+                                        </ng-container>
+                                        <div class="mt-1 text-md text-hint">Attach the screenshot receipt from GCash.
+                                            This will verify by the merchant</div>
+                                    </div>
                                     <!-- Note -->
                                     <div class="sm:col-span-4">
                                         <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
@@ -161,10 +173,10 @@
                                 <span class="text-lg font-bold w-full">QTY</span>
                                 <span class="text-lg font-bold w-full">TOTAL</span>
                             </div>
-            
+
                             <!-- Divider -->
                             <div class="col-span-12 mt-1 mb-4 border-b"></div>
-            
+
                             <!-- Item -->
                             <div class="grid grid-cols-4 gap-5 my-2" *ngFor="let item of cart.items">
                                 <span class="text-lg font-bold w-full">{{ item?.product_name }}</span>
@@ -172,44 +184,46 @@
                                 <span class="text-lg w-full">{{ item?.quantity }}</span>
                                 <span class="text-lg w-full">{{ item?.price * item?.quantity | currency: '₱' }}</span>
                             </div>
-                           
+
                             <!-- Divider -->
                             <div class="col-span-12 my-4 border-b"></div>
-            
+
                             <!-- Spacer -->
                             <div class="col-span-12 mt-12"></div>
-            
+
                             <!-- Subtotal -->
                             <div class="col-span-10 self-center font-bold tracking-tight font-bold">SUBTOTAL</div>
                             <div class="col-span-2 text-right text-lg">{{ subtotal | currency: '₱' }}</div>
-            
+
                             <!-- Divider -->
                             <div class="col-span-12 my-3 border-b"></div>
-            
+
                             <!-- Tax -->
-                            <div class="col-span-10 self-center font-bold tracking-tight font-bold">DELIVERY CHARGE</div>
-                            <div class="col-span-2 text-right text-lg">{{ this.store?.delivery_charge | currency: '₱' }}</div>
-            
+                            <div class="col-span-10 self-center font-bold tracking-tight font-bold">DELIVERY CHARGE
+                            </div>
+                            <div class="col-span-2 text-right text-lg">{{ this.store?.delivery_charge | currency: '₱' }}
+                            </div>
+
                             <!-- Divider -->
                             <div class="col-span-12 my-3 border-b"></div>
-            
+
                             <!-- Discount -->
-                            <div class="col-span-10 self-center font-bold tracking-tight font-bold">CONVENIENCE FEE</div>
+                            <div class="col-span-10 self-center font-bold tracking-tight font-bold">CONVENIENCE FEE
+                            </div>
                             <div class="col-span-2 text-right text-lg">{{ 5.00 | currency: '₱' }}</div>
-            
+
                             <!-- Divider -->
                             <div class="col-span-12 my-3 border-b"></div>
-            
+
                             <!-- Total -->
                             <div class="col-span-10 self-center text-2xl font-bold tracking-tight font-bold">TOTAL</div>
                             <div class="col-span-2 text-right text-2xl font-bold">{{ total | currency: '₱' }}</div>
                             <div class="col-span-12 my-12 w-full">
-                                <button (click)="placeOrder()" *ngIf="!isAddingOrder" 
-                                [disabled]="!(checkoutForm.get('contact').value?.length > 0) || !(checkoutForm.get('address').value?.length > 0) ||
-                                (checkoutForm.get('mode_of_payment').value == 'gcash' && !hasProof)"
-                                type="button" class="btn btn-danger w-full">PLACE ORDER</button>
+                                <button (click)="placeOrder()" *ngIf="!isAddingOrder" [disabled]="!(checkoutForm.get('contact').value?.length > 0) || !(checkoutForm.get('address').value?.length > 0) ||
+                                (checkoutForm.get('mode_of_payment').value == 'gcash' && !hasProof)" type="button"
+                                    class="btn btn-danger w-full">PLACE ORDER</button>
                                 <button *ngIf="isAddingOrder" disabled type="button" class="btn btn-danger w-full">
-                                    <i class="fa fa-spinner animate-spin"></i>&nbsp;PROCESSING</button> 
+                                    <i class="fa fa-spinner animate-spin"></i>&nbsp;PROCESSING</button>
                             </div>
                         </div>
                     </div>

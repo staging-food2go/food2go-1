@@ -35,7 +35,12 @@
                           <p class="mb-0 fw-bold text-lg-center"><i class="fas fa-user text-warning mx-2"></i> Hello, {{ user?.first_name }} {{ user?.last_name }} <i class="fas fa-map-marker-alt text-warning mx-2"></i> <span>Current Location: </span><span>{{ user?.user_informations?.complete_address }}</span></p>
                         </div>
                         
-                          <a class="btn btn-white shadow-warning text-warning pull-right" (click)="logout()"> <i class="fas fa-user me-2"></i>Logout</a>
+                        <div class="mx-auto pt-2 pt-lg-0 d-block d-lg-none d-xl-block">
+                            <a class="btn btn-danger text-white pull-right" [routerLink]="'/stores/activities/transactions'"> <i class="fas fa-bars me-2"></i>Transactions/Orders</a>
+                        </div>
+                        <div class="mx-auto pt-2 pt-lg-0 d-block d-lg-none d-xl-block">
+                         <a class="btn btn-danger text-white pull-right" (click)="logout()"> <i class="fas fa-user me-2"></i>Logout</a>
+                        </div>
                       </div>
             </div>
         </nav>

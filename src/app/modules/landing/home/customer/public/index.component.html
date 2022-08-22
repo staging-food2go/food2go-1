@@ -28,20 +28,24 @@
               <a class="btn btn-white shadow-warning text-warning pull-right" (click)="login()"> <i class="fas fa-user me-2"></i>Login</a>
           </div>
           <div *ngIf="user" class="collapse navbar-collapse border-top border-lg-0 my-2 mt-lg-0" id="navbarSupportedContent">
-            <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
+            <div class=" mx-auto pt-2 pt-lg-0 d-block d-lg-none d-xl-block">
               <p class="mb-0 fw-bold text-lg-center"><i class="fas fa-user text-warning mx-2"></i> Hello, {{ user?.first_name }} {{ user?.last_name }} <i class="fas fa-map-marker-alt text-warning mx-2"></i> <span>Current Location: </span><span>{{ user?.user_informations?.complete_address }}</span></p>
             </div>
-              <!-- <div class="input-group-icon pe-2"><i class="fas fa-search input-box-icon text-primary"></i>
-                <input class="form-control border-0 input-box bg-100" type="search" placeholder="Search Food" aria-label="Search" />
-              </div> -->
-              <a class="btn btn-white shadow-warning text-warning pull-right" (click)="logout()"> <i class="fas fa-user me-2"></i>Logout</a>
+            <div class="mx-auto pt-2 pt-lg-0 d-block d-lg-none d-xl-block">
+              <a class="btn btn-danger text-white pull-right" [routerLink]="'/stores/activities/transactions'"> <i class="fas fa-bars me-2"></i>Transactions/Orders</a>
+
+            </div>
+            <div class="mx-auto pt-2 pt-lg-0 d-block d-lg-none d-xl-block">
+              <a class="btn btn-danger text-white pull-right" (click)="logout()"> <i class="fas fa-user me-2"></i>Logout</a>
+            </div>
+             
           </div>
         </div>
       </nav>
       <section class="py-5 overflow-hidden bg-primary" id="home">
         <div class="container">
           <div class="row flex-center">
-            <div class="col-md-5 col-lg-6 order-0 order-md-1 mt-8 mt-md-0"><a class="img-landing-banner" href="#!"><img class="img-fluid" src="./assets/img/gallery/hero-header.png" alt="hero-header" /></a></div>
+            <div class="col-md-5 col-lg-6 order-0 order-md-1 mt-8 mt-md-0"><a class="img-landing-banner" href="javascript:;"><img class="img-fluid" src="./assets/img/gallery/hero-header.png" alt="hero-header" /></a></div>
             <div class="col-md-7 col-lg-6 py-8 text-md-start text-center">
               <h1 class="display-1 fs-md-5 fs-lg-6 fs-xl-8 text-light">Are you starving?</h1>
               <h1 class="text-800 mb-5 fs-4">Within a few click, find meals that<br class="d-none d-xxl-block" />are accessible near you</h1>

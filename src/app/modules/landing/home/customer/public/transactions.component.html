@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+
+<body>
+
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top"
+            data-navbar-on-scroll="data-navbar-on-scroll">
+            <div class="container"><a class="navbar-brand d-inline-flex" href="index.html"><img class="d-inline-block"
+                        src="./assets/img/gallery/logo.svg" alt="logo" /><span
+                        class="text-1000 fs-3 fw-bold ms-2 text-gradient">Food2Go</span></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon">
+                    </span></button>
+                <div *ngIf="!user" class="collapse navbar-collapse border-top border-lg-0 my-2 mt-lg-0"
+                    id="navbarSupportedContent">
+                    <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
+                        <!-- <p class="mb-0 fw-bold text-lg-center pb-2">You are not logged in</p> -->
+                    </div>
+                    <a class="btn btn-white shadow-warning text-warning pull-right" (click)="login()"> <i
+                            class="fas fa-user me-2"></i>Login</a>
+                </div>
+                <div *ngIf="user" class="collapse navbar-collapse border-top border-lg-0 my-2 mt-lg-0"
+                    id="navbarSupportedContent">
+                    <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
+                        <p class="mb-0 fw-bold text-lg-center"><i class="fas fa-user text-warning mx-2"></i> Hello, {{
+                            user?.first_name }} {{ user?.last_name }} <i
+                                class="fas fa-map-marker-alt text-warning mx-2"></i> <span>Current Location:
+                            </span><span>{{ user?.user_informations?.complete_address }}</span></p>
+                    </div>
+
+                    <div class="mx-auto pt-2 pt-lg-0 d-block d-lg-none d-xl-block">
+                        <a class="btn btn-danger text-white pull-right" [routerLink]="'/stores/activities/transactions'"> <i
+                                class="fas fa-bars me-2"></i>Transactions/Orders</a>
+                    </div>
+                    <div class="mx-auto pt-2 pt-lg-0 d-block d-lg-none d-xl-block">
+                        <a class="btn btn-danger text-white pull-right" (click)="logout()"> <i
+                                class="fas fa-user me-2"></i>Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <section class="py-5 overflow-hidden bg-primary" id="home">
+            <div class="container">
+                <div class="row flex-center">
+                    <!-- <div class="col-md-5 col-lg-6 order-0 order-md-1 mt-8 mt-md-0"><a class="img-landing-banner"
+                            href="#!"><img class="img-fluid" src="./assets/img/gallery/hero-header.png"
+                                alt="hero-header" /></a></div> -->
+                    <div class="col-md-7 col-lg-6 pt-5 text-md-start text-center">
+                        <h1 class="display-1 fs-md-5 fs-lg-6 fs-xl-8 text-light">Transactions/Orders</h1>
+                        <button class="btn btn-danger" type="button" (click)="back()">Go Back</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================-->
+        <!-- <section> begin ============================-->
+        <section class="py-4 overflow-hidden">
+
+            <div class="container">
+                <div class="row gap-4 h-100 mx-auto" style="min-height: 510px;">
+                    <!-- <div class="col-lg-12  text-center mt-5">
+                        <h5 class="fw-bold fs-3 fs-lg-5 lh-sm">Transaction / Orders</h5>
+                    </div> -->
+                    <div class="col-lg-12 card">
+                        <div>
+                            <mat-form-field appearance="standard" style="width: 25%;" >
+                                <mat-label>Filter</mat-label>
+                                <input matInput [(ngModel)]="keyword" placeholder="Ex. pending" #input>
+                            </mat-form-field>
+                            <mat-form-field appearance="standard" style="width: 25%;" >
+                                <mat-label>Status</mat-label>
+                                <mat-select matInput [(ngModel)]="status">
+                                    <mat-option value="all">All</mat-option>
+                                    <mat-option value="pending">Pending</mat-option>
+                                    <mat-option value="preparing">Preparing</mat-option>
+                                    <mat-option value="outfordelivery">Out for Delivery</mat-option>
+                                    <mat-option value="completed">Completed</mat-option>
+                                    <mat-option value="rejected">Rejected</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field appearance="standard" style="width: 25%;">
+                                <mat-label>Date</mat-label>
+                                <input matInput [matDatepicker]="picker" [(ngModel)]="date">
+                                <mat-hint>MM/DD/YYYY</mat-hint>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <a href="javascript:;" class="pointer-cursor pl-5" style="width: 25%;" (click)="fetchTransactions()"><i class="fa fa-search text-3xl text-danger"></i></a>
+                        </div>
+                          
+                          <div class="mat-elevation-z8">
+                            <table mat-table [dataSource]="dataSource" matSort class="w-full">
+                          
+                              <!-- ID Column -->
+                              <ng-container matColumnDef="OrderNo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> ORDER NO. </th>
+                                <td mat-cell *matCellDef="let row"> <a href="javascript:;" class="text-secondary cursor-pointer" (click)="select(row)">{{row?.order?.id}}</a> </td>
+                              </ng-container>
+                          
+                              <!-- Progress Column -->
+                              <ng-container matColumnDef="TransactionDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> TRANSACTION DATE </th>
+                                <td mat-cell *matCellDef="let row"> {{row?.order?.created_at | date: 'medium'}} </td>
+                              </ng-container>
+                          
+                              <!-- Name Column -->
+                              <ng-container matColumnDef="Status">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> STATUS </th>
+                                <td mat-cell *matCellDef="let row"> {{row?.order?.status | titlecase}} </td>
+                              </ng-container>
+                          
+                              <!-- Fruit Column -->
+                              <ng-container matColumnDef="Remarks">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> REMARKS </th>
+                                <td mat-cell *matCellDef="let row"> {{row?.order?.remarks}} </td>
+                              </ng-container>
+                          
+                              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                          
+                              <!-- Row shown when there is no matching data. -->
+                              <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                              </tr>
+                            </table>
+                          
+                            <mat-paginator class="w-full" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of orders"></mat-paginator>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="py-0 pt-4 bg-1000">
+
+            <div class="container">
+
+                <hr class="border border-800" />
+                <div class="row flex-center pb-3">
+                    <div class="col-md-6 order-0">
+                        <p class="text-200 text-center text-md-start">All rights Reserved &copy; Your Company, 2021</p>
+                    </div>
+                    <div class="col-md-6 order-1">
+                        <p class="text-200 text-center text-md-end"> Made with&nbsp;
+                            by&nbsp;<a class="text-200 fw-bold" href="https://themewagon.com/"
+                                target="_blank">ThemeWagon </a>
+                        </p>
+                    </div>
+                </div>
+            </div><!-- end of .container-->
+
+        </section>
+
+
+    </main>
+
+</body>
+
+</html>

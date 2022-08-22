@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SettingsModule } from 'app/layout/common/settings/settings.module';
@@ -18,12 +18,18 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { TransactionComponent } from './customer/public/transanctions.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
     declarations: [
         LandingHomeComponent,
         StoreComponent,
-        CheckoutComponent
+        CheckoutComponent,
+        TransactionComponent
     ],
     imports     : [
         RouterModule.forChild(landingHomeRoutes),
@@ -41,9 +47,13 @@ import { MatSelectModule } from '@angular/material/select';
         ReactiveFormsModule,
         MatSnackBarModule,
         FormsModule,
-        MatProgressSpinnerModule
-        
-    ]
+        MatProgressSpinnerModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatNativeDateModule,
+        MatDatepickerModule
+    ],
+    providers: [DatePipe]
 })
 export class LandingHomeModule
 {
