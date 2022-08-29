@@ -121,13 +121,13 @@
                               <!-- Name Column -->
                               <ng-container matColumnDef="Status">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> STATUS </th>
-                                <td mat-cell *matCellDef="let row"> {{row?.order?.status | titlecase}} </td>
+                                <td mat-cell *matCellDef="let row"> {{ statuses[row?.order?.status] }} </td>
                               </ng-container>
                           
                               <!-- Fruit Column -->
                               <ng-container matColumnDef="Remarks">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> REMARKS </th>
-                                <td mat-cell *matCellDef="let row"> {{row?.order?.remarks}} </td>
+                                <td mat-cell *matCellDef="let row"> {{ row?.order?.remarks ? row?.order?.remarks : 'No Remarks' }} </td>
                               </ng-container>
                           
                               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

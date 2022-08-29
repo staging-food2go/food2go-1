@@ -87,7 +87,9 @@ export class AuthSignInComponent implements OnInit {
                                 if (this._user.role == 'buyer') {
                                     redirectURL = '/stores';
                                 } else if (this._user.role == 'admin') {
-                                    redirectURL = '/dashboard';
+                                    redirectURL = '/dashboard/analytics';
+                                } else {
+                                    redirectURL = '/stores';
                                 }
                             }
                             this._router.navigateByUrl(redirectURL);

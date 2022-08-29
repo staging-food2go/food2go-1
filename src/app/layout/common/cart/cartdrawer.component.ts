@@ -7,6 +7,7 @@ import { Layout } from 'app/layout/layout.types';
 import { ConsumerService } from 'app/shared/services/consumer.service';
 import { Cart } from './cart.model';
 import { AuthService } from 'app/shared/services/auth.service';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 
 @Component({
     selector     : 'cartdrawer',
@@ -35,7 +36,8 @@ export class CartDrawerComponent implements OnInit, OnDestroy
         private _fuseConfigService: FuseConfigService,
         private _consumer: ConsumerService,
         private _auth: AuthService,
-        private _router: Router
+        private _router: Router,
+        private _fuseConfirmationService: FuseConfirmationService
     )
     {
     }
@@ -86,7 +88,32 @@ export class CartDrawerComponent implements OnInit, OnDestroy
         if (this._auth.isAuthenticated()) {
             this._router.navigateByUrl('/stores/' + this.cart.store.id + '/checkout');
         } else {
-            alert('not authenticate');
+            this._fuseConfirmationService.open(
+                {
+                  title      : 'You need to login first',
+                  message    : '',
+                  icon       : {
+                      show : false,
+                      name : 'heroicons_outline:question-mark-circle',
+                      color: 'primary'
+                  },
+                  actions    : {
+                      confirm: {
+                          show : true,
+                          label: 'Go to login',
+                          color: 'primary'
+                      },
+                      cancel : {
+                          show : true,
+                          label: 'Cancel'
+                      }
+                  },
+                  dismissible: true
+              }).afterClosed().subscribe(result => {
+                if (result == 'confirmed') {
+                    this._router.navigateByUrl('/sign-in?redirectURL=stores/' + this.cart.store.id + '/checkout');
+                }
+              });
         }
     }
 

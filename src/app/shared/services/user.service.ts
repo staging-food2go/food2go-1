@@ -54,6 +54,10 @@ export class UserService {
     me() {
       return this._http.get(environment.API_ENDPOINT + '/v1/user');
     }
+
+    getShopInfo(id) {
+      return this._http.get(environment.API_ENDPOINT + '/v1/user/shop/' + id);
+    }
 }
 
 

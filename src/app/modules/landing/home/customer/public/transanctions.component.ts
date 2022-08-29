@@ -23,6 +23,12 @@ import { DatePipe } from '@angular/common';
 
 export class TransactionComponent
 {
+    statuses =  {   'pending': 'Pending',
+                    'preparing' : 'Preparing',
+                    'outfordelivery' : 'Out for Delivery',
+                    'rejected' : 'Rejected',
+                    'completed' : 'Completed'
+                };
     records: any[] = [];
     keyword = '';
     user: any;

@@ -18,6 +18,18 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
     isScreenSmall: boolean;
     navigation: Navigation;
     user: User;
+    menuList: any[] = [
+        { id: 'dashboard', title: 'Dashboard', 'type': 'basic', icon: 'heroicons_outline:chart-pie', link: '/dashboard/analytics'},
+        { id: 'user', title: 'Users', 'type': 'basic', icon: 'heroicons_outline:user-group', link: '/admin/users'},
+        { id: 'reports', title: 'Reports', 'type': 'basic', icon: 'heroicons_outline:document-report', link: '/admin/reports'},
+    ];
+    menu: Navigation = {
+        default: this.menuList,
+        compact: this.menuList,
+        futuristic: this.menuList,
+        horizontal: this.menuList,
+
+    }
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -56,12 +68,12 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         // Subscribe to navigation data
-        this._navigationService.navigation$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((navigation: Navigation) => {
-                this.navigation = navigation;
-            });
-
+        // this._navigationService.navigation$
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe((navigation: Navigation) => {
+        //         this.navigation = navigation;
+        //     });
+        this.navigation = this.menu;
         // Subscribe to the user service
         this._userService.user$
             .pipe((takeUntil(this._unsubscribeAll)))

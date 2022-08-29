@@ -52,27 +52,37 @@ export class CheckoutComponent
     
     ngOnInit(): void {
         this.getUser();
+        
         if (!this.user)
             this._router.navigateByUrl('/stores');
         this.getCart();
-        this.store = this._consumer.getSelectedStore();
-        this.total = this.getTotal();
-        this.subtotal = this.getSubtotal(this.cart.items);
-        this.store = this._consumer.getSelectedStore();
         // Create the form
         this.checkoutForm = this._formBuilder.group({
             name    : [this.user.first_name + ' ' + this.user.last_name, Validators.required],
             contact: [this.user?.user_informations?.primary_contact, Validators.required],
             address : [this.user?.user_informations?.complete_address, Validators.required],
-            delivery_charge : [this.store.delivery_charge],
+            delivery_charge : [0],
             convenience_fee : [5],
-            user_shops_id   : [this.store.id],
-            merchant_user_id   : [this.store.user_id],
+            user_shops_id   : [''],
+            merchant_user_id   : [''],
             note   : [''],
             mode_of_payment    : ['cod'],
             total: [this.total],
             order_list: [this.cart.items]
         });
+        // this.store = this._consumer.getSelectedStore();
+        this._user.getShopInfo(this.cart.store.id)
+        .subscribe((response: any) => {
+            this.store = response['result'];
+            this.checkoutForm.patchValue({delivery_charge: this.store.delivery_charge});
+            this.checkoutForm.patchValue({user_shops_id: this.store.id});
+            this.checkoutForm.patchValue({merchant_user_id: this.store.user_id});
+            this.total = this.getTotal();
+            this.subtotal = this.getSubtotal(this.cart.items);
+            
+        });
+        
+       
     }
 
     getUser() {
@@ -172,10 +182,7 @@ export class CheckoutComponent
                       }).afterClosed().subscribe(result => {
                         this._consumer.clearCart();
                         this._consumer.clearSelectedStore();
-                        this._router.navigateByUrl('/stores')
-                        setTimeout(() => {
-                            this._router.navigateByUrl('/stores')
-                        }, 5000);
+                        this._router.navigateByUrl('/stores/activities/transactions')
                       });
                 },
                 (response: any) => {
