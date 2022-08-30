@@ -13,8 +13,8 @@ import { AnalyticsService } from 'app/modules/admin/dashboards/analytics/analyti
 export class AnalyticsComponent implements OnInit, OnDestroy
 {
     chartVisitors: ApexOptions;
-    chartConversions: ApexOptions;
-    chartImpressions: ApexOptions;
+    chartCollectable: ApexOptions;
+    chartCollected: ApexOptions;
     chartVisits: ApexOptions;
     chartVisitorsVsPageViews: ApexOptions;
     chartNewVsReturning: ApexOptions;
@@ -22,9 +22,12 @@ export class AnalyticsComponent implements OnInit, OnDestroy
     chartAge: ApexOptions;
     chartLanguage: ApexOptions;
     data: any;
-
+    collectableSeries: any;
+    collectableRange = '7days';
+    collectedSeries: any;
+    collectedRange = '7days';
+    activeMerchantCountSeries: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-
     /**
      * Constructor
      */
@@ -44,18 +47,21 @@ export class AnalyticsComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+       
+        this.prepareCollectbleAmount();
+        this.prepareCollectedAmount();
         // Get the data
         this._analyticsService.data$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((data) => {
-
+               
                 // Store the data
                 this.data = data;
 
                 // Prepare the chart data
                 this._prepareChartData();
             });
-
+            
         // Attach SVG fill fixer to all ApexCharts
         window['Apex'] = {
             chart: {
@@ -71,6 +77,104 @@ export class AnalyticsComponent implements OnInit, OnDestroy
         };
     }
 
+
+    prepareCollectbleAmount(range = '7days') {
+        this._analyticsService.getCollectableAmount({range: range})
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe(response => {
+            this.collectableSeries = response['result'];
+            this.collectableRange = range;
+            // Conversions
+            this.chartCollectable = {
+                chart  : {
+                    animations: {
+                        enabled: false
+                    },
+                    fontFamily: 'inherit',
+                    foreColor : 'inherit',
+                    height    : '100%',
+                    type      : 'area',
+                    sparkline : {
+                        enabled: true
+                    }
+                },
+                colors : ['#38BDF8'],
+                fill   : {
+                    colors : ['#38BDF8'],
+                    opacity: 0.5
+                },
+                series : this.collectableSeries.series,
+                stroke : {
+                    curve: 'smooth'
+                },
+                tooltip: {
+                    followCursor: true,
+                    theme       : 'dark'
+                },
+                xaxis  : {
+                    type      : 'category',
+                    categories: this.collectableSeries.labels
+                },
+                yaxis  : {
+                    labels: {
+                        formatter: (val): string => val.toString()
+                    }
+                }
+            };
+        });
+    }
+
+    prepareCollectedAmount(range = '7days') {
+        this._analyticsService.getCollectedAmount({range: range})
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe(response => {
+            this.collectedSeries = response['result'];
+            this.collectedRange = range;
+
+            this.chartCollected = {
+                chart  : {
+                    animations: {
+                        enabled: false
+                    },
+                    fontFamily: 'inherit',
+                    foreColor : 'inherit',
+                    height    : '100%',
+                    type      : 'area',
+                    sparkline : {
+                        enabled: true
+                    }
+                },
+                colors : ['#34D399'],
+                fill   : {
+                    colors : ['#34D399'],
+                    opacity: 0.5
+                },
+                series : this.collectedSeries.series,
+                stroke : {
+                    curve: 'smooth'
+                },
+                tooltip: {
+                    followCursor: true,
+                    theme       : 'dark'
+                },
+                xaxis  : {
+                    type      : 'category',
+                    categories: this.collectedSeries.labels
+                },
+                yaxis  : {
+                    labels: {
+                        formatter: (val): string => val.toString()
+                    }
+                }
+            };
+    
+
+        })
+    }
+
+    prepareActiveMerchantCount() {
+
+    }
     /**
      * On destroy
      */
@@ -133,6 +237,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy
      */
     private _prepareChartData(): void
     {
+
         // Visitors
         this.chartVisitors = {
             chart     : {
@@ -231,81 +336,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy
             }
         };
 
-        // Conversions
-        this.chartConversions = {
-            chart  : {
-                animations: {
-                    enabled: false
-                },
-                fontFamily: 'inherit',
-                foreColor : 'inherit',
-                height    : '100%',
-                type      : 'area',
-                sparkline : {
-                    enabled: true
-                }
-            },
-            colors : ['#38BDF8'],
-            fill   : {
-                colors : ['#38BDF8'],
-                opacity: 0.5
-            },
-            series : this.data.conversions.series,
-            stroke : {
-                curve: 'smooth'
-            },
-            tooltip: {
-                followCursor: true,
-                theme       : 'dark'
-            },
-            xaxis  : {
-                type      : 'category',
-                categories: this.data.conversions.labels
-            },
-            yaxis  : {
-                labels: {
-                    formatter: (val): string => val.toString()
-                }
-            }
-        };
-
-        // Impressions
-        this.chartImpressions = {
-            chart  : {
-                animations: {
-                    enabled: false
-                },
-                fontFamily: 'inherit',
-                foreColor : 'inherit',
-                height    : '100%',
-                type      : 'area',
-                sparkline : {
-                    enabled: true
-                }
-            },
-            colors : ['#34D399'],
-            fill   : {
-                colors : ['#34D399'],
-                opacity: 0.5
-            },
-            series : this.data.impressions.series,
-            stroke : {
-                curve: 'smooth'
-            },
-            tooltip: {
-                followCursor: true,
-                theme       : 'dark'
-            },
-            xaxis  : {
-                type      : 'category',
-                categories: this.data.impressions.labels
-            },
-            yaxis  : {
-                labels: {
-                    formatter: (val): string => val.toString()
-                }
-            }
-        };
+        
 
         // Visits
         this.chartVisits = {

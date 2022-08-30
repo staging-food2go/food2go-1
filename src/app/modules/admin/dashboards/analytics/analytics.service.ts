@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from 'environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -42,5 +43,20 @@ export class AnalyticsService
                 this._data.next(response);
             })
         );
+    }
+
+    getCollectableAmount(payload)
+    {
+        return this._httpClient.post(environment.API_ENDPOINT + '/v1/dashboard/getTotalCollectable', payload);
+    }
+    
+    getCollectedAmount(payload)
+    {
+        return this._httpClient.post(environment.API_ENDPOINT + '/v1/dashboard/getTotalCollected', payload);
+    }
+
+    getActiveMerchantCount()
+    {
+        return this._httpClient.get(environment.API_ENDPOINT + '/v1/dashboard/getActiveMerchantCount');
     }
 }
