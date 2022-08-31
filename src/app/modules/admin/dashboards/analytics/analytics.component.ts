@@ -12,11 +12,11 @@ import { AnalyticsService } from 'app/modules/admin/dashboards/analytics/analyti
 })
 export class AnalyticsComponent implements OnInit, OnDestroy
 {
-    chartVisitors: ApexOptions;
+    chartCompletedOrders: ApexOptions;
     chartCollectable: ApexOptions;
     chartCollected: ApexOptions;
     chartActiveMerchants: ApexOptions;
-    chartVisitorsVsPageViews: ApexOptions;
+    chartCompletedOrdersVsPageViews: ApexOptions;
     chartNewVsReturning: ApexOptions;
     chartGender: ApexOptions;
     chartAge: ApexOptions;
@@ -27,6 +27,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy
     collectedSeries: any;
     collectedRange = '7days';
     activeMerchantCountSeries: any;
+    completedOrdersSeries: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
      * Constructor
@@ -51,6 +52,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy
         this.prepareCollectbleAmount();
         this.prepareCollectedAmount();
         this.prepareActiveMerchantCount();
+        this.prepareCompletedOrders();
         // Get the data
         this._analyticsService.data$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -218,6 +220,114 @@ export class AnalyticsComponent implements OnInit, OnDestroy
 
         })
     }
+
+    prepareCompletedOrders() {
+        this._analyticsService.getCompletedTransactions()
+        .subscribe(response => {
+            this.completedOrdersSeries = response['result'];
+            this.chartCompletedOrders = {
+                chart     : {
+                    animations: {
+                        speed           : 400,
+                        animateGradually: {
+                            enabled: false
+                        }
+                    },
+                    fontFamily: 'inherit',
+                    foreColor : 'inherit',
+                    width     : '100%',
+                    height    : '100%',
+                    type      : 'area',
+                    toolbar   : {
+                        show: false
+                    },
+                    zoom      : {
+                        enabled: false
+                    }
+                },
+                colors    : ['#818CF8'],
+                dataLabels: {
+                    enabled: false
+                },
+                fill      : {
+                    colors: ['#312E81']
+                },
+                grid      : {
+                    show       : true,
+                    borderColor: '#334155',
+                    padding    : {
+                        top   : 10,
+                        bottom: -40,
+                        left  : 0,
+                        right : 0
+                    },
+                    position   : 'back',
+                    xaxis      : {
+                        lines: {
+                            show: true
+                        }
+                    }
+                },
+                series    : this.completedOrdersSeries.series,
+                stroke    : {
+                    width: 2
+                },
+                tooltip   : {
+                    followCursor: true,
+                    theme       : 'dark',
+                    x           : {
+                        format: 'MMM dd, yyyy'
+                    },
+                    y           : {
+                        formatter: (value: number): string => `${value}`
+                    }
+                },
+                xaxis     : {
+                    axisBorder: {
+                        show: false
+                    },
+                    axisTicks : {
+                        show: false
+                    },
+                    crosshairs: {
+                        stroke: {
+                            color    : '#475569',
+                            dashArray: 0,
+                            width    : 2
+                        }
+                    },
+                    labels    : {
+                        offsetY: -20,
+                        style  : {
+                            colors: '#CBD5E1'
+                        }
+                    },
+                    tickAmount: 20,
+                    tooltip   : {
+                        enabled: false
+                    },
+                    type      : 'datetime'
+                },
+                yaxis     : {
+                    axisTicks : {
+                        show: false
+                    },
+                    axisBorder: {
+                        show: false
+                    },
+                    min       : (min): number => min - 750,
+                    max       : (max): number => max + 250,
+                    tickAmount: 5,
+                    show      : false
+                }
+            };
+    
+
+        })
+        
+    }
+
+
     /**
      * On destroy
      */
@@ -281,105 +391,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy
     private _prepareChartData(): void
     {
 
-        // Visitors
-        this.chartVisitors = {
-            chart     : {
-                animations: {
-                    speed           : 400,
-                    animateGradually: {
-                        enabled: false
-                    }
-                },
-                fontFamily: 'inherit',
-                foreColor : 'inherit',
-                width     : '100%',
-                height    : '100%',
-                type      : 'area',
-                toolbar   : {
-                    show: false
-                },
-                zoom      : {
-                    enabled: false
-                }
-            },
-            colors    : ['#818CF8'],
-            dataLabels: {
-                enabled: false
-            },
-            fill      : {
-                colors: ['#312E81']
-            },
-            grid      : {
-                show       : true,
-                borderColor: '#334155',
-                padding    : {
-                    top   : 10,
-                    bottom: -40,
-                    left  : 0,
-                    right : 0
-                },
-                position   : 'back',
-                xaxis      : {
-                    lines: {
-                        show: true
-                    }
-                }
-            },
-            series    : this.data.visitors.series,
-            stroke    : {
-                width: 2
-            },
-            tooltip   : {
-                followCursor: true,
-                theme       : 'dark',
-                x           : {
-                    format: 'MMM dd, yyyy'
-                },
-                y           : {
-                    formatter: (value: number): string => `${value}`
-                }
-            },
-            xaxis     : {
-                axisBorder: {
-                    show: false
-                },
-                axisTicks : {
-                    show: false
-                },
-                crosshairs: {
-                    stroke: {
-                        color    : '#475569',
-                        dashArray: 0,
-                        width    : 2
-                    }
-                },
-                labels    : {
-                    offsetY: -20,
-                    style  : {
-                        colors: '#CBD5E1'
-                    }
-                },
-                tickAmount: 20,
-                tooltip   : {
-                    enabled: false
-                },
-                type      : 'datetime'
-            },
-            yaxis     : {
-                axisTicks : {
-                    show: false
-                },
-                axisBorder: {
-                    show: false
-                },
-                min       : (min): number => min - 750,
-                max       : (max): number => max + 250,
-                tickAmount: 5,
-                show      : false
-            }
-        };
 
-        
 
         // Visits
         this.chartActiveMerchants = {
@@ -420,7 +432,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy
         };
 
         // Visitors vs Page Views
-        this.chartVisitorsVsPageViews = {
+        this.chartCompletedOrdersVsPageViews = {
             chart     : {
                 animations: {
                     enabled: false
