@@ -77,8 +77,8 @@
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "75kb",
-                                    "maximumError": "90kb"
+                                    "maximumWarning": "900kb",
+                                    "maximumError": "1000kb"
                                 }
                             ],
                             "fileReplacements": [
@@ -136,7 +136,7 @@
                         ],
                         "scripts": []
                     }
-                },
+                },  
                 "lint": {
                     "builder": "@angular-eslint/builder:lint",
                     "options": {

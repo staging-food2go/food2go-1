@@ -10,7 +10,7 @@ import { UserService } from 'app/shared/services/user.service';
 @Component({
     selector     : 'landing-home',
     templateUrl  : './customer/public/index.component.html',
-    styleUrls: ['./customer/public/assets/css/theme.css'],
+    styleUrls: ['./customer/public/assets/css/theme.min.css'],
     encapsulation: ViewEncapsulation.None
 })
 export class LandingHomeComponent

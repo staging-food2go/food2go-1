@@ -15,7 +15,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy
     chartVisitors: ApexOptions;
     chartCollectable: ApexOptions;
     chartCollected: ApexOptions;
-    chartVisits: ApexOptions;
+    chartActiveMerchants: ApexOptions;
     chartVisitorsVsPageViews: ApexOptions;
     chartNewVsReturning: ApexOptions;
     chartGender: ApexOptions;
@@ -50,6 +50,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy
        
         this.prepareCollectbleAmount();
         this.prepareCollectedAmount();
+        this.prepareActiveMerchantCount();
         // Get the data
         this._analyticsService.data$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -173,7 +174,49 @@ export class AnalyticsComponent implements OnInit, OnDestroy
     }
 
     prepareActiveMerchantCount() {
+        this._analyticsService.getActiveMerchantCount()
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe(response => {
+            this.activeMerchantCountSeries = response['result'];
+            this.chartActiveMerchants = {
+                chart  : {
+                    animations: {
+                        enabled: false
+                    },
+                    fontFamily: 'inherit',
+                    foreColor : 'inherit',
+                    height    : '100%',
+                    type      : 'area',
+                    sparkline : {
+                        enabled: true
+                    }
+                },
+                colors : ['#34D399'],
+                fill   : {
+                    colors : ['#34D399'],
+                    opacity: 0.5
+                },
+                series : this.activeMerchantCountSeries.series,
+                stroke : {
+                    curve: 'smooth'
+                },
+                tooltip: {
+                    followCursor: true,
+                    theme       : 'dark'
+                },
+                xaxis  : {
+                    type      : 'category',
+                    categories: this.activeMerchantCountSeries.labels
+                },
+                yaxis  : {
+                    labels: {
+                        formatter: (val): string => val.toString()
+                    }
+                }
+            };
+    
 
+        })
     }
     /**
      * On destroy
@@ -339,7 +382,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy
         
 
         // Visits
-        this.chartVisits = {
+        this.chartActiveMerchants = {
             chart  : {
                 animations: {
                     enabled: false

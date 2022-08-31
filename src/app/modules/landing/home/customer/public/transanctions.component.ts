@@ -17,7 +17,7 @@ import { DatePipe } from '@angular/common';
 @Component({
     selector     : 'landing-transaction',
     templateUrl  : './transactions.component.html',
-    styleUrls: ['./assets/css/theme.css'],
+    styleUrls: ['./assets/css/theme.min.css'],
     encapsulation: ViewEncapsulation.None
 })
 

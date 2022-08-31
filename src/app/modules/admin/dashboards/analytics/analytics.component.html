@@ -179,8 +179,8 @@
             <!-- Visits -->
             <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
                 <div class="flex items-start justify-between m-6 mb-0">
-                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Visits</div>
-                    <div class="ml-2">
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Active Merchants</div>
+                    <!-- <div class="ml-2">
                         <button
                             class="h-6 min-h-6 px-2 rounded-full bg-hover"
                             mat-button
@@ -192,11 +192,11 @@
                             <button mat-menu-item>3 months</button>
                             <button mat-menu-item>9 months</button>
                         </mat-menu>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="flex flex-col lg:flex-row lg:items-center mx-6 mt-3">
-                    <div class="text-7xl font-bold tracking-tighter leading-tight">{{data.visits.amount | number:'1.0-0'}}</div>
-                    <div class="flex lg:flex-col lg:ml-3">
+                    <div class="text-7xl font-bold tracking-tighter leading-tight">{{activeMerchantCountSeries.amount | number:'1.0-0'}}</div>
+                    <!-- <div class="flex lg:flex-col lg:ml-3">
                         <mat-icon
                             class="icon-size-5 text-red-500"
                             [svgIcon]="'heroicons_solid:trending-down'"></mat-icon>
@@ -204,18 +204,18 @@
                             <span class="font-medium text-red-500">4%</span>
                             <span class="ml-1">below target</span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="flex flex-col flex-auto h-20">
                     <apx-chart
                         class="flex-auto w-full h-full"
-                        [chart]="chartVisits.chart"
-                        [colors]="chartVisits.colors"
-                        [series]="chartVisits.series"
-                        [stroke]="chartVisits.stroke"
-                        [tooltip]="chartVisits.tooltip"
-                        [xaxis]="chartVisits.xaxis"
-                        [yaxis]="chartVisits.yaxis"></apx-chart>
+                        [chart]="chartActiveMerchants.chart"
+                        [colors]="chartActiveMerchants.colors"
+                        [series]="chartActiveMerchants.series"
+                        [stroke]="chartActiveMerchants.stroke"
+                        [tooltip]="chartActiveMerchants.tooltip"
+                        [xaxis]="chartActiveMerchants.xaxis"
+                        [yaxis]="chartActiveMerchants.yaxis"></apx-chart>
                 </div>
             </div>
         </div>
