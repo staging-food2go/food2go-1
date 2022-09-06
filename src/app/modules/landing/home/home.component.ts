@@ -68,6 +68,8 @@ export class LandingHomeComponent
     logout() {
         this._auth.logout()
         .subscribe(()=>{
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
             this.getUser();
         });
     }

@@ -5,7 +5,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <style>
+        @media only screen and (max-width: 600px) {
+            .self-end{ 
+                align-self: end;
+            }
+        }
+    </style>
 </head>
 
 
@@ -96,11 +102,11 @@
                             </div>
                             <button class="carousel-control-prev carousel-icon" type="button" *ngIf="!(records?.length == 1 && records[0].products[0] == null)"
                                 data-bs-target="#carouselPopularItems" data-bs-slide="prev"><span
-                                    class="carousel-control-prev-icon hover-top-shadow" aria-hidden="true"></span><span
+                                    class="carousel-control-prev-icon hover-top-shadow sm:self-end" aria-hidden="true"></span><span
                                     class="visually-hidden">Previous</span></button>
                             <button class="carousel-control-next carousel-icon" type="button" *ngIf="!(records?.length == 1 && records[0].products[0] == null)"
                                 data-bs-target="#carouselPopularItems" data-bs-slide="next"><span
-                                    class="carousel-control-next-icon hover-top-shadow" aria-hidden="true"></span><span
+                                    class="carousel-control-next-icon hover-top-shadow sm:self-end" aria-hidden="true"></span><span
                                     class="visually-hidden">Next </span></button>
                             
                         </div>
