@@ -46,7 +46,9 @@
             <button
                 class="ml-4"
                 mat-flat-button
-                [color]="'accent'">
+                [color]="'accent'"
+                (click)="sendWeeklyPayment()"
+                [disabled]="isLoading">
                 <span class="ml-2 mr-1">Send Weekly Payment</span>
             </button>
         </div>
