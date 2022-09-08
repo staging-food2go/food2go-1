@@ -66,6 +66,7 @@
                             "src/assets/vendors/fontawesome/all.min.js",
                             "src/assets/js/theme.js"
                         ]
+                        
                     },
                     "configurations": {
                         "production": {
@@ -104,10 +105,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "fuse:build:production"
+                            "browserTarget": "food2go:build:production"
                         },
                         "development": {
-                            "browserTarget": "fuse:build:development"
+                            "browserTarget": "food2go:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -115,7 +116,7 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "fuse:build"
+                        "browserTarget": "food2go:build"
                     }
                 },
                 "test": {

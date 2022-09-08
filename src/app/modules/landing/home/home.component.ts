@@ -48,6 +48,7 @@ export class LandingHomeComponent
         this._consumer.search(this.keyword)
           .subscribe((store: any) => {
             this.records = store.result;
+            console.log(this.records);
             this.shopLoading = false;
           });
     }

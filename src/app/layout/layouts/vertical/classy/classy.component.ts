@@ -23,6 +23,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
     menuList: any[] = [
         { id: 'dashboard', title: 'Dashboard', 'type': 'basic', icon: 'heroicons_outline:chart-pie', link: '/dashboard/analytics'},
         { id: 'user', title: 'Users', 'type': 'basic', icon: 'heroicons_outline:user-group', link: '/admin/users'},
+        { id: 'weekly_payments', title: 'Weekly Payments', 'type': 'basic', icon: 'heroicons_outline:receipt-tax', link: '/admin/weekly-payments'},
         { id: 'reports', title: 'Reports', 'type': 'basic', icon: 'heroicons_outline:document-report', link: '/admin/reports'},
     ];
     menu: Navigation = {

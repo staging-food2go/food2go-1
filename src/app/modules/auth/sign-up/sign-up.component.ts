@@ -52,6 +52,8 @@ export class AuthSignUpComponent implements OnInit
                 last_name      : ['', Validators.required],
                 email     : ['', [Validators.required, Validators.email]],
                 password  : ['', Validators.required],
+                primary_contact  : ['', Validators.required],
+                complete_address  : ['', Validators.required],
             }
         );
     }
@@ -81,22 +83,18 @@ export class AuthSignUpComponent implements OnInit
         this._userService.register(this.signUpForm.value)
             .subscribe(
                 (response) => {
-                    this._snackBar.open('User registration success!');
+                    this._snackBar.open('User registration success!','', {duration: 2000});
                     this._router.navigateByUrl('/sign-in');
                    
                 },
                 (response) => {
-
                     // Re-enable the form
                     this.signUpForm.enable();
-
-                    // Reset the form
-                    this.signUpNgForm.resetForm();
 
                     // Set the alert
                     this.alert = {
                         type   : 'error',
-                        message: 'Something went wrong, please try again.'
+                        message: response?.error?.message
                     };
 
                     // Show the alert
