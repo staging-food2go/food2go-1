@@ -138,6 +138,87 @@ export class WeeklyPaymentsComponent {
                                     },
                                     dismissible: true
                                 }).afterClosed().subscribe(result => {
+                                    this.search();
+                                });
+                        },
+                        errorres => {
+                            this._fuseConfirmationService.open(
+                                {
+                                    title: errorres.error.message,
+                                    message: '',
+                                    icon: {
+                                        show: false,
+                                        name: 'heroicons_outline:question-mark-circle',
+                                        color: 'primary'
+                                    },
+                                    actions: {
+                                        confirm: {
+                                            show: true,
+                                            label: 'Yes',
+                                            color: 'primary'
+                                        },
+                                        cancel: {
+                                            show: false,
+                                            label: 'Cancel'
+                                        }
+                                    },
+                                    dismissible: true
+                                }).afterClosed().subscribe(result => {
+                                });
+                        })
+                }
+            });
+    }
+
+    approve(id) {
+        this._fuseConfirmationService.open(
+            {
+                title: 'Approved this payment?',
+                message: '',
+                icon: {
+                    show: false,
+                    name: 'heroicons_outline:question-mark-circle',
+                    color: 'primary'
+                },
+                actions: {
+                    confirm: {
+                        show: true,
+                        label: 'Yes',
+                        color: 'primary'
+                    },
+                    cancel: {
+                        show: true,
+                        label: 'Cancel'
+                    }
+                },
+                dismissible: true
+            }).afterClosed().subscribe(result => {
+                if (result == 'confirmed') {
+                    this._weeklyPaymentService.approve(id)
+                        .subscribe(result => {
+                            this._fuseConfirmationService.open(
+                                {
+                                    title: result['message'],
+                                    message: '',
+                                    icon: {
+                                        show: false,
+                                        name: 'heroicons_outline:question-mark-circle',
+                                        color: 'primary'
+                                    },
+                                    actions: {
+                                        confirm: {
+                                            show: true,
+                                            label: 'Yes',
+                                            color: 'primary'
+                                        },
+                                        cancel: {
+                                            show: false,
+                                            label: 'Cancel'
+                                        }
+                                    },
+                                    dismissible: true
+                                }).afterClosed().subscribe(result => {
+                                    this.search();
                                 });
                         },
                         errorres => {

@@ -67,6 +67,10 @@ export class WeeklyPaymentService
      sendData(payload) {
         return this._httpClient.post(environment.API_ENDPOINT + 'v1/weeklypayment/send', payload);
      }
+
+     approve(id) {
+        return this._httpClient.get(environment.API_ENDPOINT + 'v1/weeklypayment/approveByAdmin/' + id);
+     }
 }
 
 

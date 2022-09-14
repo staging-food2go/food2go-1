@@ -206,8 +206,9 @@
                                 mat-cell
                                 *matCellDef="let transaction">
                                 <span
-                                    class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase">
-                                    <span class="leading-relaxed whitespace-nowrap" *ngIf="transaction.status == 'settled'">Verify</span>
+                                    *ngIf="transaction?.status == 'settled'"
+                                    class="cursor-pointer inline-flex items-center font-bold text-sm px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-blue-200 text-blue-800 dark:bg-blue-600 dark:text-blue-50">
+                                    <span class="leading-relaxed whitespace-nowrap" (click)="approve(transaction?.id)">Verify</span>
                                 </span>
                             </td>
                         </ng-container>
