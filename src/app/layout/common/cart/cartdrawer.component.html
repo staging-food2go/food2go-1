@@ -56,7 +56,7 @@
             </div>
             <div class="z-20 flex flex-row items-center px-2 py-4 md:px-8 border-b">
                 <div class="min-w-0 flex grow w-12/12 ml-4">
-                    <button type="button" class="grow btn btn-warning" (click)="checkout()" [disabled]="!cart">CHECKOUT</button>
+                    <button type="button" class="grow btn btn-warning" (click)="checkout()" [disabled]="cart?.items.length <= 0">CHECKOUT</button>
                 </div>
             </div>
         </div>

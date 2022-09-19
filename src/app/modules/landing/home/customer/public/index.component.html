@@ -245,19 +245,18 @@
             </mat-progress-spinner>
           </div>
           <div class="row gx-2" *ngIf="!shopLoading">
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5" *ngFor="let store of records" >
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" [src]="store?.image_url != null ? store?.image_url : './assets/img/gallery/kuakata.png'" alt="..." />
+            <div class="col-6 col-sm-6 col-md-4 col-lg-3 h-100 mb-5" *ngFor="let store of records" >
+              <div class="card card-span h-[400px] text-white rounded-3"><img class="img-fluid rounded-3 h-[200px] max-h-[200px]" [src]="store?.image_url != null ? store?.image_url : './assets/img/gallery/kuakata.png'" alt="..." />
                 <!-- <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">10% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div> -->
                 <div class="card-body ps-0 mx-3 z-10">
                   <span *ngIf="store?.status == 'open'" class="badge bg-soft-success p-2"><span class="fw-bold fs-1 text-success">Open</span></span>
                   <span *ngIf="store?.status == 'closed'" class="badge bg-soft-danger p-2"><span class="fw-bold fs-1 text-danger">Sorry we're closed</span></span>
                   <h3 class="mb-0 fw-bold text-1000">{{ store?.name }}</h3>
-                  <h5 class="mb-0 fw-bold text-1000">{{ tConvert(store?.open_hour) }} to {{ tConvert(store?.close_hour) }}</h5>
+                  <label class="mb-0 fw-bold text-1000">{{ tConvert(store?.open_hour) }} to {{ tConvert(store?.close_hour) }}</label><br>
                   <small class="mb-0 fw-bold text-1000" style="color: gray !important;">{{ store?.address }}</small>
                 </div>
-                <div *ngIf="store?.status == 'open'" class="d-grid gap-3 col-sm-auto m-3 z-10">
-                  <button class="btn btn-danger" type="button" (click)="chooseStore(store)">Order Now</button>
-                </div>
+                <a class="btn btn-lg btn-danger" href="javascript:;" *ngIf="store?.status == 'open'"
+                                        role="button" (click)="chooseStore(store)">Order Now</a>
               </div>
             </div>
           </div>
@@ -863,7 +862,7 @@
           <hr class="border border-800" />
           <div class="row flex-center pb-3">
             <div class="col-md-6 order-0">
-              <p class="text-200 text-center text-md-start">All rights Reserved &copy; Your Company, 2021</p>
+              <p class="text-200 text-center text-md-start">All rights Reserved &copy; Food2Go, 2022</p>
             </div>
             <div class="col-md-6 order-1">
               <p class="text-200 text-center text-md-end"> Made with&nbsp;
