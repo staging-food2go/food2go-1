@@ -1,12 +1,15 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { AuthService } from 'app/shared/services/auth.service';
 import { CommonService } from 'app/shared/services/common.service';
 import { ConsumerService } from 'app/shared/services/consumer.service';
 import { NotificationService } from 'app/shared/services/notify.service';
+import { PusherService } from 'app/shared/services/pusher.service';
 import { UserService } from 'app/shared/services/user.service';
-
+import { environment } from 'environments/environment';
+import Swal from 'sweetalert2';
 @Component({
     selector     : 'landing-home',
     templateUrl  : './customer/public/index.component.html',
@@ -19,7 +22,7 @@ export class LandingHomeComponent
     keyword = '';
     today = new Date().getDay();
     shopLoading = true;
-    user = [];
+    user: any;
     trackOrderNumber = '';
     constructor(
     private _consumer: ConsumerService,
@@ -28,7 +31,9 @@ export class LandingHomeComponent
     private _auth: AuthService,
     private _user: UserService,
     private _notify: NotificationService,
-    private _fuseConfirmationService: FuseConfirmationService
+    private _fuseConfirmationService: FuseConfirmationService,
+    private _pusher: PusherService,
+    private _snackBar: MatSnackBar
     )
     {
         
@@ -37,6 +42,23 @@ export class LandingHomeComponent
     ngOnInit(): void {
         this.fetch();
         this.getUser();
+        this._pusher.subScribeToChannel('my-channel', [environment.ORDER_PIPELINE_EVENT], (data) => {
+            const jdata = JSON.parse(data);
+            const order_id = jdata['order_id'];
+            const user_id = jdata['user_id'];
+            const msg = jdata['message'];
+            if (this.user?.id == user_id) {
+                Swal.fire({
+                    title: '#' + order_id + ': ' + msg,
+                    showClass: {
+                      popup: 'animate__animated animate__fadeInDown'
+                    },
+                    hideClass: {
+                      popup: 'animate__animated animate__fadeOutUp'
+                    }
+                  })
+            }
+        });
     }
 
     getUser() {
@@ -48,7 +70,6 @@ export class LandingHomeComponent
         this._consumer.search(this.keyword)
           .subscribe((store: any) => {
             this.records = store.result;
-            console.log(this.records);
             this.shopLoading = false;
           });
     }

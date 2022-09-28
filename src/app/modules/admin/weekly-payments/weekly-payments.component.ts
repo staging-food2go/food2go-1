@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { fromPairs } from 'lodash';
 import moment from 'moment';
 import { Subject, takeUntil } from 'rxjs';
 import { WeeklyPaymentService } from './weekly-payments.service';
@@ -56,8 +57,14 @@ export class WeeklyPaymentsComponent {
             });
     }
     search() {
-        const from = moment(this.dateFrom).format('yyyy-MM-DD');
-        const to = moment(this.dateTo).format('yyyy-MM-DD');
+        let from = moment(this.dateFrom).format('yyyy-MM-DD');
+        let to = moment(this.dateTo).format('yyyy-MM-DD');
+        if (this.dateFrom == null) {
+            from = null;
+        }
+        if (this.dateTo == null) {
+            to = null
+        }
         this.currentDateFrom = from;
         this.currentDateTo = to;
         this.currentStatus = this.status;

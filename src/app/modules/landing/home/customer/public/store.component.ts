@@ -8,6 +8,7 @@ import { CommonService } from 'app/shared/services/common.service';
 import { ConsumerService } from 'app/shared/services/consumer.service';
 import { NotificationService } from 'app/shared/services/notify.service';
 import { UserService } from 'app/shared/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
     selector     : 'landing-store',
@@ -53,7 +54,7 @@ export class StoreComponent
 
     fetchProducts() {
         this._fuseLoadingService.show();
-        this._consumer.getProducts(this.store.id).subscribe((response:any) => {
+        this._consumer.getProducts({store_id: this.store.id, keyword: this.keyword}).subscribe((response:any) => {
             this.records = response['result'];
             this._fuseLoadingService.hide();
         });
@@ -93,7 +94,11 @@ export class StoreComponent
           }).afterClosed().subscribe(result => {
               if (result == 'confirmed') {
                 this._consumer.setCart(item, this.store.name, this.store.id);
-                this._snackBar.open('Item added in cart.','' ,{duration: 3000, horizontalPosition: 'right', verticalPosition: 'bottom',});
+                Swal.fire(
+                    'Item added to cart!',
+                    '',
+                    'success'
+                  )
               }
           });
     }
