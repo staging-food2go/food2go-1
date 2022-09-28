@@ -21,7 +21,7 @@ export class Auth2Guard  implements CanActivate {
         //   this.notify.info("You are not authorized to access this page.");
           this.router.navigateByUrl('/stores');
           return false;
-        }
+      }
         if (!next.data['roles'])
           return true;
         if (!this.commonService.isGrantedAny(next.data['roles'])) {
